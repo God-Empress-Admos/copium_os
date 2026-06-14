@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COPIUM_OS v1.2.137</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo" style="font-weight: bold; color: var(--accent-color);">COPIUM_OS v1.2.137</div>
+        <div class="global-stats">
+            <div class="stat-item">
+                <span class="stat-label">Lifetime Inhaled</span>
+                <span id="total-display" class="stat-value">0 mg</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Status</span>
+                <span id="status-display" class="stat-value" style="color: #ffcc00;">UNKNOWN</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="clicker-panel">
+            <div id="resource-display">0 mg</div>
+            
+            <div id="combined-stats">
+                <div class="stat-row">
+                    <span class="stat-label-combined">Passive Denial</span>
+                    <span id="gps-display" class="stat-value-combined">0.0/s</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label-combined">Copium Per Click</span>
+                    <span id="denial-per-click" class="stat-value-combined">1.0 mg</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label-combined">Clicks Per Second</span>
+                    <span id="cps" class="stat-value-combined">0.0</span>
+                </div>
+            </div>
+            
+            <button id="click-button">Inhale Copium</button>
+            
+            <p style="margin-top: 3rem; font-size: 0.8rem; color: #777;">Click to inhale Copium and gain denial.</p>
+        </section>
+
+        <section id="shop-panel">
+            <div class="shop-header">Available Denial Methods</div>
+            <div class="upgrade-grid" id="upgrade-grid">
+            </div>
+            
+            <div class="manual-upgrades">
+                <div class="category-header manual-header">Advanced Inhalation Techniques</div>
+                <div class="upgrade-grid" id="manual-upgrade-grid">
+                </div>
+            </div>
+            
+            <div class="multiplier-upgrades">
+                <div class="category-header multiplier-header">Denial Enhancers</div>
+                <div class="upgrade-grid" id="multiplier-grid">
+                </div>
+                
+                <div class="inhale-enhancers">
+                    <div class="category-header enhancer-header">Inhale Enhancers</div>
+                    <div class="upgrade-grid" id="enhancer-grid">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="delusion-stage">
+                <div class="stage-label">DELUSION STAGE</div>
+                <div class="stage-desc" id="stage-description">Unknown state of denial</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div>System Active: Connection Stable</div>
+        <button id="reset-btn" onclick="showResetDialog()">Purge All Memories</button>
+    </footer>
+
+    <div id="reset-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">CONFIRM PURGE</div>
+            <div class="modal-body">
+                <p>Are you sure you want to purge all memories of your delusion?</p>
+                <p>This action is irreversible and will reset your entire progress.</p>
+                <p style="color: #ff4d4d; font-weight: bold; margin-top: 1rem;">WARNING: All data will be permanently lost!</p>
+            </div>
+            <div class="modal-buttons">
+                <button id="cancel-reset" class="modal-btn cancel-btn">Cancel</button>
+                <button id="confirm-reset" class="modal-btn confirm-btn">Purge Memories</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
