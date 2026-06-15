@@ -32,27 +32,38 @@ header {
     justify-content: space-between;
     align-items: center;
     z-index: 10;
+    position: relative;
+}
+
+.logo {
+    font-weight: bold;
+    color: var(--accent-color);
 }
 
 .global-stats {
     display: flex;
     gap: 2rem;
+    align-items: center;
 }
 
 .stat-item {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .stat-label { 
     font-size: 0.7rem; 
     color: var(--text-dim); 
     text-transform: uppercase; 
+    text-align: center;
+    letter-spacing: 1px;
 }
 
 .stat-value { 
     font-weight: bold; 
     color: var(--accent-color); 
+    text-align: center;
 }
 
 main {
@@ -290,12 +301,52 @@ footer {
     justify-content: space-between;
 }
 
-#reset-btn {
+#menu-button {
     background: none; 
-    border: none; 
-    color: #551a1a; 
-    cursor: pointer; 
-    text-decoration: underline;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.5rem 0.8rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 1rem;
+    z-index: 10;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background-color: var(--panel-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem 0;
+    min-width: fit-content;
+    display: none;
+    z-index: 100;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: max-content;
+}
+
+.dropdown button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: 'Courier New', Courier, monospace;
+    display: block;
+}
+
+.dropdown button:hover {
+    background-color: rgba(255, 77, 77, 0.1);
+}
+
+.dropdown button:last-child {
+    color: #ff4d4d;
 }
 
 .particle {
