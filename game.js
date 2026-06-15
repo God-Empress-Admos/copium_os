@@ -32,7 +32,8 @@ function loadGame() {
     const savedData = localStorage.getItem('copiumDashSave');
     if (savedData) {
         try {
-            const parsed = JSON.parse(savedData);
+            let parsed = JSON.parse(savedData);
+            
             gameState.copium = parsed.copium || 0;
             gameState.totalCopium = parsed.totalCopium || 0;
             
@@ -70,6 +71,7 @@ function loadGame() {
                 gameState.previousCps = parsed.previousCps;
             }
         } catch(e) {
+            console.error('Error loading game:', e);
             resetGameState();
         }
     }
@@ -92,7 +94,8 @@ function resetGameState() {
 }
 
 function saveGame() {
-    localStorage.setItem('copiumDashSave', JSON.stringify(gameState));
+    const saveData = JSON.stringify(gameState);
+    localStorage.setItem('copiumDashSave', saveData);
 }
 
 function showResetDialog() {
