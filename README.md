@@ -3,6 +3,6 @@
 Early Test Version
 
 Does not properly work on mobile devices, no priority fix. 
+Only tested on landscape 16:9, other ratios may cause issues.
 
-  Roadmap:
-    - Put something here, don't forget about me please.
+  Roadmap: Will get to it. Be patient with me. Thanks.
