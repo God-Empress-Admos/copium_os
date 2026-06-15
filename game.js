@@ -366,13 +366,13 @@ document.addEventListener('keydown', (e) => {
         if (!isKeyDown || lastKeyPressed !== e.key) {
             lastKeyPressed = e.key;
             isKeyDown = true;
-            
+
             const button = document.getElementById('click-button');
-            const rect = button.getBoundingClientRect();
-            const randomX = rect.left + Math.random() * rect.width;
-            const randomY = rect.top + Math.random() * rect.height;
-            
-            createRedParticles(randomX, randomY);
+            button.classList.add('active-keyboard');
+
+            setTimeout(() => {
+                button.classList.remove('active-keyboard');
+            }, 100);
             
             const now = Date.now();
             gameState.lastActiveTime = now;
@@ -406,6 +406,12 @@ document.addEventListener('keydown', (e) => {
                 }
             }
             gameState.lastClickTime = now;
+
+            const rect = button.getBoundingClientRect();
+            const randomX = rect.left + Math.random() * rect.width;
+            const randomY = rect.top + Math.random() * rect.height;
+            
+            createRedParticles(randomX, randomY);
             
             updateUI();
         }
