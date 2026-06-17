@@ -37,12 +37,12 @@ const UPGRADES = {
             { id: 29, name: "Cosmic Disconnection", cost: 1000000000000, rate: 2, purchased: false, description: "Increase denial gain by 200%" }
         ],
         inhale: [
-            { id: 30, name: "Respiratory Mastery", cost: 5000000000, rate: 0.1, purchased: false, description: "Improves inhalation by 10%" },
-            { id: 31, name: "Breath Control", cost: 20000000000, rate: 0.2, purchased: false, description: "Improves inhalation by 20%" },
-            { id: 32, name: "Pranayama", cost: 100000000000, rate: 0.3, purchased: false, description: "Improves inhalation by 30%" },
-            { id: 33, name: "Zen Breathing", cost: 500000000000, rate: 0.5, purchased: false, description: "Improves inhalation by 50%" },
+            { id: 30, name: "Respiratory Mastery", cost: 2000000000, rate: 0.1, purchased: false, description: "Improves inhalation by 10%" },
+            { id: 31, name: "Breath Control", cost: 10000000000, rate: 0.2, purchased: false, description: "Improves inhalation by 20%" },
+            { id: 32, name: "Pranayama", cost: 40000000000, rate: 0.3, purchased: false, description: "Improves inhalation by 30%" },
+            { id: 33, name: "Zen Breathing", cost: 200000000000, rate: 0.5, purchased: false, description: "Improves inhalation by 50%" },
             { id: 34, name: "Astral Inhalation", cost: 1000000000000, rate: 1, purchased: false, description: "Improves inhalation by 100%" },
-            { id: 35, name: "Quantum Respiration", cost: 5000000000000, rate: 2, purchased: false, description: "Improves inhalation by 200%" }
+            { id: 35, name: "Quantum Respiration", cost: 2000000000000, rate: 2, purchased: false, description: "Improves inhalation by 200%" }
         ]
     }
 };
