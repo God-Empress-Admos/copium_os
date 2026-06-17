@@ -257,7 +257,7 @@ document.getElementById('click-button').addEventListener('click', (e) => {
                 interval: timeDiff
             });
 
-            if (gameState.clickHistory.length > 100) {
+            if (gameState.clickHistory.length > 20) {
                 gameState.clickHistory.shift();
             }
 
