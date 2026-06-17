@@ -43,6 +43,7 @@ function loadGame() {
                     if(gameState.upgrades[index]) {
                         gameState.upgrades[index].count = upg.count || 0;
                         gameState.upgrades[index].cost = upg.cost || Math.floor(gameState.upgrades[index].cost * 1.25);
+                        gameState.upgrades[index].tier = upg.tier || 0;
                     }
                 });
             }
@@ -52,6 +53,7 @@ function loadGame() {
                     if(gameState.manualUpgrades[index]) {
                         gameState.manualUpgrades[index].count = upg.count || 0;
                         gameState.manualUpgrades[index].cost = upg.cost || Math.floor(gameState.manualUpgrades[index].cost * 1.25);
+                        gameState.manualUpgrades[index].tier = upg.tier || 0;
                     }
                 });
             }
@@ -370,6 +372,11 @@ function buyUpgrade(id) {
         gameState.copium -= upgrade.cost;
         upgrade.count++;
 
+        const tier = Math.floor(upgrade.count / 100);
+        if (tier > upgrade.tier) {
+            upgrade.tier = tier;
+        }
+
         const baseCost = upgrade.cost;
         const purchaseCount = upgrade.count;
 
@@ -399,6 +406,11 @@ function buyManualUpgrade(id) {
     if (upgrade && gameState.copium >= upgrade.cost) {
         gameState.copium -= upgrade.cost;
         upgrade.count++;
+
+        const tier = Math.floor(upgrade.count / 100);
+        if (tier > upgrade.tier) {
+            upgrade.tier = tier;
+        }
 
         const baseCost = upgrade.cost;
         const purchaseCount = upgrade.count;
@@ -452,7 +464,10 @@ function buyMultiplierUpgrade(category, id) {
 }
 
 function getGPS() {
-    let baseRate = gameState.upgrades.reduce((total, upg) => total + (upg.count * upg.rate), 0);
+    let baseRate = gameState.upgrades.reduce((total, upg) => {
+        const tierBonus = upg.tier * upg.rate;
+        return total + (upg.count * (upg.rate + tierBonus));
+    }, 0);
     
     let denialMultiplier = 1;
     gameState.multiplierUpgrades.denial.forEach(upg => {
@@ -476,12 +491,13 @@ function renderUpgrades() {
     grid.innerHTML = ''; 
 
     gameState.upgrades.forEach(upg => {
+        const tierDisplay = upg.tier > 0 ? ` +${upg.tier}` : '';
         const card = document.createElement('div');
         card.className = 'upgrade-card';
         card.innerHTML = `
             <div class="upgrade-info">
-                <span class="upgrade-name">${upg.name} <small style="color:var(--accent-color)">[${upg.count}]</small></span>
-                <span class="upgrade-desc">${upg.description} (+${formatValue(upg.rate)}/s)</span>
+                <span class="upgrade-name">${upg.name}${tierDisplay} <small style="color:var(--accent-color)">[${upg.count}]</small></span>
+                <span class="upgrade-desc">${upg.description} (+${formatValue(upg.rate + (upg.tier * upg.rate))}/s)</span>
             </div>
             <button class="upgrade-btn" onclick="buyUpgrade(${upg.id})" ${gameState.copium < upg.cost ? 'disabled' : ''}>
                 ${formatValue(upg.cost)}
@@ -496,12 +512,13 @@ function renderManualUpgrades() {
     grid.innerHTML = ''; 
 
     gameState.manualUpgrades.forEach(upg => {
+        const tierDisplay = upg.tier > 0 ? ` +${upg.tier}` : '';
         const card = document.createElement('div');
         card.className = 'upgrade-card manual-card';
         card.innerHTML = `
             <div class="upgrade-info">
-                <span class="upgrade-name">${upg.name} <small style="color:#4d94ff">[${upg.count}]</small></span>
-                <span class="upgrade-desc">${upg.description} (+${formatValue(upg.rate)} per click)</span>
+                <span class="upgrade-name">${upg.name}${tierDisplay} <small style="color:#4d94ff">[${upg.count}]</small></span>
+                <span class="upgrade-desc">${upg.description} (+${formatValue(upg.rate + (upg.tier * upg.rate))} per click)</span>
             </div>
             <button class="upgrade-btn" onclick="buyManualUpgrade(${upg.id})" ${gameState.copium < upg.cost ? 'disabled' : ''}>
                 ${formatValue(upg.cost)}
@@ -559,7 +576,7 @@ function updateUI() {
     let clickPower = 1;
     gameState.manualUpgrades.forEach(upg => {
         if (upg.count > 0) {
-            clickPower += upg.rate * upg.count;
+            clickPower += (upg.rate + (upg.tier * upg.rate)) * upg.count;
         }
     });
     
