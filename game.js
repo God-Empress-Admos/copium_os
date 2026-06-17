@@ -610,7 +610,6 @@ function updateUI() {
     });
 }
 
-
 setInterval(() => {
     const gps = getGPS();
     gameState.copium += (gps / 10);
