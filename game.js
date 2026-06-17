@@ -9,7 +9,8 @@ let gameState = {
     clickCount: 0,
     cps: 0,
     lastActiveTime: Date.now(),
-    previousCps: 0
+    previousCps: 0,
+    clickHistory: []
 };
 
 const delusionStages = DELUSION_STAGES;
@@ -70,6 +71,10 @@ function loadGame() {
             if (parsed.previousCps !== undefined) {
                 gameState.previousCps = parsed.previousCps;
             }
+            
+            if (parsed.clickHistory !== undefined) {
+                gameState.clickHistory = parsed.clickHistory;
+            }
         } catch(e) {
             console.error('Error loading game:', e);
             resetGameState();
@@ -89,7 +94,8 @@ function resetGameState() {
         clickCount: 0,
         cps: 0,
         lastActiveTime: Date.now(),
-        previousCps: 0
+        previousCps: 0,
+        clickHistory: []
     };
 }
 
@@ -245,9 +251,23 @@ document.getElementById('click-button').addEventListener('click', (e) => {
 
     if (gameState.lastClickTime > 0) {
         const timeDiff = (now - gameState.lastClickTime) / 1000;
-        if (timeDiff > 0) {
-            const newCps = 1 / timeDiff;
-            gameState.cps = gameState.cps === 0 ? newCps : 0.3 * newCps + 0.7 * gameState.cps;
+        if (timeDiff > 0 && timeDiff < 5) {
+            gameState.clickHistory.push({
+                timestamp: now,
+                interval: timeDiff
+            });
+
+            if (gameState.clickHistory.length > 100) {
+                gameState.clickHistory.shift();
+            }
+
+            const validClicks = gameState.clickHistory.filter(click => click.interval < 2);
+            if (validClicks.length > 0) {
+                const avgInterval = validClicks.reduce((sum, click) => sum + click.interval, 0) / validClicks.length;
+                const newCps = 1 / avgInterval;
+
+                gameState.cps = gameState.cps === 0 ? newCps : 0.3 * newCps + 0.7 * gameState.cps;
+            }
         }
     }
     gameState.lastClickTime = now;
@@ -303,9 +323,23 @@ document.addEventListener('keydown', (e) => {
 
             if (gameState.lastClickTime > 0) {
                 const timeDiff = (now - gameState.lastClickTime) / 1000;
-                if (timeDiff > 0) {
-                    const newCps = 1 / timeDiff;
-                    gameState.cps = gameState.cps === 0 ? newCps : 0.3 * newCps + 0.7 * gameState.cps;
+                if (timeDiff > 0 && timeDiff < 5) {
+                    gameState.clickHistory.push({
+                        timestamp: now,
+                        interval: timeDiff
+                    });
+
+                    if (gameState.clickHistory.length > 20) {
+                        gameState.clickHistory.shift();
+                    }
+
+                    const validClicks = gameState.clickHistory.filter(click => click.interval < 2);
+                    if (validClicks.length > 0) {
+                        const avgInterval = validClicks.reduce((sum, click) => sum + click.interval, 0) / validClicks.length;
+                        const newCps = 1 / avgInterval;
+
+                        gameState.cps = gameState.cps === 0 ? newCps : 0.3 * newCps + 0.7 * gameState.cps;
+                    }
                 }
             }
             gameState.lastClickTime = now;
@@ -335,7 +369,16 @@ function buyUpgrade(id) {
     if (upgrade && gameState.copium >= upgrade.cost) {
         gameState.copium -= upgrade.cost;
         upgrade.count++;
-        upgrade.cost = Math.floor(upgrade.cost * 1.25);
+
+        const baseCost = upgrade.cost;
+        const purchaseCount = upgrade.count;
+
+        const maxIncrease = 0.25;
+        const minIncrease = 0.025;
+        const decayRate = 0.025;
+        
+        const multiplier = 1 + minIncrease + (maxIncrease - minIncrease) * Math.exp(-decayRate * purchaseCount);
+        upgrade.cost = Math.floor(baseCost * multiplier);
         
         const button = document.querySelector(`button[onclick="buyUpgrade(${id})"]`);
         if (button) {
@@ -356,7 +399,16 @@ function buyManualUpgrade(id) {
     if (upgrade && gameState.copium >= upgrade.cost) {
         gameState.copium -= upgrade.cost;
         upgrade.count++;
-        upgrade.cost = Math.floor(upgrade.cost * 1.25);
+
+        const baseCost = upgrade.cost;
+        const purchaseCount = upgrade.count;
+
+        const maxIncrease = 0.2;
+        const minIncrease = 0.025;
+        const decayRate = 0.025;
+        
+        const multiplier = 1 + minIncrease + (maxIncrease - minIncrease) * Math.exp(-decayRate * purchaseCount);
+        upgrade.cost = Math.floor(baseCost * multiplier);
         
         const button = document.querySelector(`button[onclick="buyManualUpgrade(${id})"]`);
         if (button) {
@@ -523,13 +575,13 @@ function updateUI() {
     
     const now = Date.now();
     const timeSinceLastActive = (now - gameState.lastActiveTime) / 1000;
-    
-    if (timeSinceLastActive > 1) {
-        gameState.cps *= Math.pow(0.8, timeSinceLastActive);
-        gameState.cps = Math.max(0.01, gameState.cps);
+
+    if (timeSinceLastActive > 3) {
+        const decayProgress = Math.min(1, timeSinceLastActive - 3);
+        gameState.cps = Math.max(0, gameState.cps * (1 - decayProgress));
     }
     
-    document.getElementById('cps').innerText = gameState.copium > 0 ? gameState.cps.toFixed(1) : '0.0';
+    document.getElementById('cps').innerText = gameState.cps.toFixed(1);
     
     document.getElementById('status-display').innerText = delusionStages[gameState.delusionStage].name;
     document.getElementById('stage-description').innerText = delusionStages[gameState.delusionStage].description;
@@ -558,25 +610,16 @@ function updateUI() {
     });
 }
 
+
 setInterval(() => {
     const gps = getGPS();
-    if (gps > 0) {
-        gameState.copium += (gps / 10);
-        gameState.totalCopium += (gps / 10);
-        updateUI();
-    }
+    gameState.copium += (gps / 10);
+    gameState.totalCopium += (gps / 10);
+    updateUI();
 }, 100);
 
 setInterval(() => {
-    const now = Date.now();
-    const timeSinceLastActive = (now - gameState.lastActiveTime) / 1000;
-    
-    if (timeSinceLastActive > 1) {
-        gameState.cps *= Math.pow(0.8, timeSinceLastActive);
-        gameState.cps = Math.max(0.01, gameState.cps);
-        
-        updateUI();
-    }
+    updateUI();
 }, 1000);
 
 setInterval(saveGame, 500);
