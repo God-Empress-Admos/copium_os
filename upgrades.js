@@ -14,17 +14,17 @@ const UPGRADES = {
         { id: 11, name: "Ego Erasure", cost: 500000000, rate: 4000000, count: 0, description: "There is no longer a 'you' left to perceive the truth" }
     ],
     manual: [
-        { id: 12, name: "Deep Breathing", cost: 50, rate: 2, count: 0, description: "Controlled inhalation technique" },
-        { id: 13, name: "Meditation", cost: 300, rate: 6, count: 0, description: "Mindful absorption" },
-        { id: 14, name: "Mindfulness", cost: 1500, rate: 20, count: 0, description: "Present moment awareness" },
-        { id: 15, name: "Zen State", cost: 8000, rate: 75, count: 0, description: "Calm, focused inhalation" },
-        { id: 16, name: "Trance", cost: 40000, rate: 250, count: 0, description: "Altered consciousness breathing" },
-        { id: 17, name: "Satori", cost: 200000, rate: 1000, count: 0, description: "Moment of enlightenment" },
-        { id: 18, name: "Hyperventilation", cost: 1000000, rate: 5000, count: 0, description: "Rapidly inducing panic" },
-        { id: 19, name: "Hypnotic Induction", cost: 5000000, rate: 20000, count: 0, description: "Subconscious suggestion" },
-        { id: 20, name: "Astral Projection", cost: 25000000, rate: 75000, count: 0, description: "Detaching from the physical plane" },
-        { id: 21, name: "Void Breathing", cost: 100000000, rate: 300000, count: 0, description: "Inhaling the absolute nothingness" },
-        { id: 22, name: "Singularity Breath", cost: 500000000, rate: 1250000, count: 0, description: "Merging with the cosmic delusion" },
+        { id: 12, name: "Deep Breathing", cost: 30, rate: 2, count: 0, description: "Controlled inhalation technique" },
+        { id: 13, name: "Meditation", cost: 200, rate: 6, count: 0, description: "Mindful absorption" },
+        { id: 14, name: "Mindfulness", cost: 1000, rate: 20, count: 0, description: "Present moment awareness" },
+        { id: 15, name: "Zen State", cost: 5000, rate: 75, count: 0, description: "Calm, focused inhalation" },
+        { id: 16, name: "Trance", cost: 20000, rate: 250, count: 0, description: "Altered consciousness breathing" },
+        { id: 17, name: "Satori", cost: 100000, rate: 1000, count: 0, description: "Moment of enlightenment" },
+        { id: 18, name: "Hyperventilation", cost: 500000, rate: 5000, count: 0, description: "Rapidly inducing panic" },
+        { id: 19, name: "Hypnotic Induction", cost: 2000000, rate: 20000, count: 0, description: "Subconscious suggestion" },
+        { id: 20, name: "Astral Projection", cost: 10000000, rate: 75000, count: 0, description: "Detaching from the physical plane" },
+        { id: 21, name: "Void Breathing", cost: 50000000, rate: 300000, count: 0, description: "Inhaling the absolute nothingness" },
+        { id: 22, name: "Singularity Breath", cost: 200000000, rate: 1250000, count: 0, description: "Merging with the cosmic delusion" },
         { id: 23, name: "The Final Exhale", cost: 1000000000, rate: 5000000, count: 0, description: "Releasing the last breath of your former existence" }
     ],
     multiplier: {
