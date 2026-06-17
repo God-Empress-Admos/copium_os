@@ -64,6 +64,7 @@ function importSave() {
                             if(gameState.upgrades[index]) {
                                 gameState.upgrades[index].count = upg.count || 0;
                                 gameState.upgrades[index].cost = upg.cost || Math.floor(gameState.upgrades[index].cost * 1.25);
+                                gameState.upgrades[index].tier = upg.tier || 0;
                             }
                         });
                     }
@@ -73,6 +74,7 @@ function importSave() {
                             if(gameState.manualUpgrades[index]) {
                                 gameState.manualUpgrades[index].count = upg.count || 0;
                                 gameState.manualUpgrades[index].cost = upg.cost || Math.floor(gameState.manualUpgrades[index].cost * 1.25);
+                                gameState.manualUpgrades[index].tier = upg.tier || 0;
                             }
                         });
                     }
